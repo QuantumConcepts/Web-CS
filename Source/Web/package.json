@@ -1,11 +1,27 @@
 {
   "name": "Web",
   "version": "0.0.0",
+  "license": "MIT",
   "devDependencies": {
-    "gulp": "3.8.11",
-    "gulp-concat": "2.5.2",
-    "gulp-cssmin": "0.1.7",
-    "gulp-uglify": "1.2.0",
-    "rimraf": "2.2.8"
+    "gulp": "*",
+    "rimraf": "*",
+    "gulp-sass": "*",
+    "gulp-concat": "*",
+    "gulp-cssmin": "*",
+    "gulp-uglify": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://git.dev.quantumconcepts.io/git/QuantumConcepts/Website/Web-CS"
+  },
+  "homepage": "http://quantumconcepts.io",
+  "bugs": {
+    "url": "http://pm.dev.quantumconcepts.io/projects/qc-website",
+    "email": "support@quantumconcepts.io"
+  },
+  "author": {
+    "name": "Josh McCullough",
+    "email": "josh@quantumconcepts.io",
+    "url": "http://joshmccullough.me"
   }
 }

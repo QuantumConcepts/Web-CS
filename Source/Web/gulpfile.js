@@ -2,48 +2,54 @@
 'use strict';
 
 var gulp = require("gulp"),
-    rimraf = require("rimraf"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify"),
-    project = require("./project.json");
+  rimraf = require("rimraf"),
+  sass = require("gulp-sass"),
+  concat = require("gulp-concat"),
+  cssmin = require("gulp-cssmin"),
+  uglify = require("gulp-uglify"),
+  project = require("./project.json");
 
-var paths = function () {
-  var webroot = "./" + project.webroot + "/";
-  
-  return {
-    webroot: webroot,
-    js: paths.webroot + "js/**/*.js",
-    minJs: paths.webroot + "js/**/*.min.js",
-    css: paths.webroot + "css/**/*.css",
-    minCss: paths.webroot + "css/**/*.min.css",
-    concatJsDest: paths.webroot + "js/site.min.js",
-    concatCssDest: paths.webroot + "css/site.min.css"
-  };
-}();
+var publicRoot = "./" + project.webroot + "/";
+var contentRoot = "./Content/";
+var paths = {
+  js: contentRoot + "JS/**/*.js",
+  ts: contentRoot + "JS/**/*.ts",
+  scss: contentRoot + "CSS/**/*.scss",
+  jsDest: publicRoot + "JS/",
+  cssDest: publicRoot + "CSS/"
+};
 
-gulp.task("clean:js", function(cb) {
-  rimraf(paths.concatJsDest, cb);
+gulp.task("clean:js", function (cb) {
+  rimraf(paths.jsDest, cb);
 });
 
-gulp.task("clean:css", function(cb) {
-  rimraf(paths.concatCssDest, cb);
+gulp.task("clean:css", function (cb) {
+  rimraf(paths.cssDest, cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:css"]);
 
-gulp.task("min:js", function() {
-  gulp.src([paths.js, "!" + paths.minJs], {
-      base: "."
-    })
+gulp.task("compile:ts", function (cb) {
+
+});
+
+gulp.task("compile:scss", function (cb) {
+  gulp.src(paths.scss)
+    .pipe(sass().on("error", sass.logError))
+    .pipe(gulp.dest(paths.cssDest));
+});
+
+gulp.task("min:js", function () {
+  gulp.src([paths.js, "!*.min.js"], {
+    base: "."
+  })
     .pipe(concat(paths.concatJsDest))
     .pipe(uglify())
     .pipe(gulp.dest("."));
 });
 
-gulp.task("min:css", function() {
-  gulp.src([paths.css, "!" + paths.minCss])
-    .pipe(concat(paths.concatCssDest))
+gulp.task("min:css", function () {
+  gulp.src([paths.cssDest, "!*.min.css"])
     .pipe(cssmin())
     .pipe(gulp.dest("."));
 });
