@@ -17,6 +17,8 @@ namespace Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; set; }
+
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
             // Setup configuration sources.
@@ -25,8 +27,6 @@ namespace Web
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
-
-        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
@@ -49,11 +49,8 @@ namespace Web
 
             // Add the following to the request pipeline only in development environment.
             if (env.IsDevelopment())
-            {
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
-            }
-            else
-            {
+            else {
                 // Add Error handling middleware which catches all application specific errors and
                 // send the request to the following path or controller action.
                 app.UseErrorHandler("/Home/Error");
@@ -61,10 +58,12 @@ namespace Web
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();
-
-            // Add MVC to the request pipeline.
-            app.UseMvc(routes =>
-            {
+            
+            ConfigureRoutes(app);
+        }
+        
+        private void ConfigureRoutes(IApplicationBuilder app) {
+            app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
