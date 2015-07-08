@@ -30,13 +30,14 @@ gulp.task("clean:css", function (cb) {
 gulp.task("clean", ["clean:js", "clean:css"]);
 
 gulp.task("compile:ts", function (cb) {
-
+  cb();
 });
 
 gulp.task("compile:scss", function (cb) {
   gulp.src(paths.scss)
     .pipe(sass().on("error", sass.logError))
     .pipe(gulp.dest(paths.cssDest));
+  cb();
 });
 
 gulp.task("min:js", function () {
@@ -46,12 +47,18 @@ gulp.task("min:js", function () {
     .pipe(concat(paths.concatJsDest))
     .pipe(uglify())
     .pipe(gulp.dest("."));
+  cb();
 });
 
 gulp.task("min:css", function () {
   gulp.src([paths.cssDest, "!*.min.css"])
     .pipe(cssmin())
     .pipe(gulp.dest("."));
+  cb();
 });
 
 gulp.task("min", ["min:js", "min:css"]);
+
+gulp.task("watch", function (cb) {
+    gulp.watch(paths.scss, ["compile:scss"]);
+});
