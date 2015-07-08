@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>@ViewData["Title"] - Quantum Concepts</title>
+        <environment names="Development">
+            <link rel="stylesheet" type="text/css" href="~/Public/CSS/Site.css"/>
+        </environment>
+        <environment names="Staging,Production">
+            <link rel="stylesheet" type="text/css" href="~/Public/CSS/Site.min.css"/>
+        </environment>
+        @RenderSection("head", required: false)
+    </head>
+    <body>
+        <header>
+            <div class="content">
+                <div id="logo"></div>
+            </div>
+        </header>
+        
+        <nav id="main-menu">
+            <div class="content">
+                @RenderSection("nav", required: true)
+            </div>    
+        </nav>                
+                              
+        <section id="body">
+            <h1>@ViewData["Title"]</h1>
+            <div class="content">
+                @RenderBody()
+            </div>
+        </section>
+
+        <section id="footer">
+            <div class="content">
+                @RenderSection("footer", required: true)
+            </div>
+        </section>
+
+        <environment names="Development">
+            <script type="text/javascript" src="~/Public/JS/Site.js"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script type="text/javascript" src="~/Public/JS/Site.min.js"></script>
+        </environment>
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
